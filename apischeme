@@ -1,0 +1,12 @@
+GET /id
+POST /players
+GET /players/{id}/location
+GET /players/{id}/next_location
+GET /players/{id}/name
+GET /players/{id}/co2_budget
+POST /players/{id}/add_to_c02/{c02_to_add}
+POST /players/{id}/move
+GET /airports/{icao}/coordinates - gets coordinates
+GET /airports/{icao}/name
+GET /airports/{icao}/country
+GET /random_weather_condition
