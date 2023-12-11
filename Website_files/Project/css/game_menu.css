@@ -1,0 +1,91 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+    }
+   
+    #gameMenu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: px 8px 16px 0px rgba(0,0,0,0.2);
+    }
+   
+    #gameMenu button {
+    padding: 30px;
+    font-size: 25px;
+    border-radius: 5px;
+    background-color: #80a5ea; /* Light blue */
+    color: white;
+    border: none;
+    cursor: pointer;
+    }
+   
+    #popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    display: none;
+    }
+   
+   #tutorialPopup {
+   position: fixed;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   background-color: #fff;
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+   display: none;
+   width: 50%;
+   height: 50%;
+   }
+      
+   #tutorialPopup .close {
+   position: absolute;
+   top: 10px;
+   right: 10px;
+   font-size: 20px;
+   cursor: pointer;
+   }
+   
+    #aboutPopup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    display: none;
+    width: 50%;
+    height: 50%;
+    }
+   
+    #aboutPopup .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    }
+   
+    #map {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    }

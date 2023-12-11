@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Flight Game</title>
+ <link rel="stylesheet" type="text/css" href="/css/game_menu.css" />
+ <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+ integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+ crossorigin="" />
+
+</head>
+<body>
+ <div id="map"></div>
+ <div id="gameMenu">
+ <button onclick="showMenu('play')">Play</button>
+ <button onclick="showTutorialPopup()">Tutorial</button>
+ <button onclick="showAboutPopup()">About</button>
+ </div>
+ <div id="popup">
+ <textarea id="textArea" placeholder="Type your text here..."></textarea>
+ </div>
+ <div id="aboutPopup">
+ <span class="close" onclick="closeAboutPopup()">&times;</span>
+ <p>Game is made by Jesper, Anatolii, Aleksandr, Phuc, German.</p>
+ </div>
+ <div id="tutorialPopup">
+    <span class="close" onclick="closeTutorialPopup()">&times;</span>
+    <p>Tutorial of the game...</p>
+    </div>
+
+ <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+ integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+ crossorigin=""></script>
+
+ <script src="game_menu.js"></script>
+</body>
+</html>
