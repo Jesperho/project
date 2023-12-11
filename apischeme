@@ -1,5 +1,5 @@
 GET /id
-POST /players
+POST /players/{name}
 GET /players/{id}/location
 GET /players/{id}/next_location
 GET /players/{id}/name

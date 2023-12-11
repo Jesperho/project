@@ -14,7 +14,33 @@ db = mysql.connector.connect(
     autocommit = True
 )
 
-game_map = ["LPPT", "LEMD", "LFML", "LIMC", "LOWW", "LZKZ", "UKBB", "UMMS", "EVRA", "EETN", "ULLI", "EFHK"]
+game_map_global = ["LPPT", "LEMD", "LFML", "LIMC", "LOWW", "LZKZ", "UKBB", "UMMS", "EVRA", "EETN", "ULLI", "EFHK"]
+continents = ["NA", "OC", "AF", "AN", "EU", "AS", "SA"]
+
+def populate_game_map(continent: str, size: int):
+    if not continent in continents:
+        raise Exception("Invalid continent provided")
+    
+    game_map = [get_large_airport_icao_by_continent(continent) for i in range(size)]
+    game_map_global = game_map
+    
+
+def get_large_airport_icao_by_continent(continent: str) -> str:
+    if continent not in continents:
+        raise Exception("Invalid continent provided")
+    
+    sql = "SELECT ident FROM airport WHERE continent=%s AND type='large_airport' ORDER BY RAND() LIMIT 1"
+    cursor = db.cursor()
+    cursor.execute(sql, (continent, ))
+    result = cursor.fetchone()
+    cursor.close()
+
+    if not result:
+        raise Exception("No large airport found for the specified continent.")
+    
+    airport = result[0]
+    print(airport)
+    return airport
 
 
 def new_id() -> str:
@@ -32,7 +58,7 @@ def create_player(name: str) -> str:
     sql = f"INSERT INTO game (id, co2_consumed, co2_budget, location, screen_name) VALUES (%s, %s, %s, %s, %s)"
     cursor = db.cursor()
     ident = new_id()
-    cursor.execute(sql, (ident, 0, 0, game_map[0], name))
+    cursor.execute(sql, (ident, 0, 0, game_map_global[0], name))
     cursor.close()
     return ident
 
@@ -52,9 +78,9 @@ def get_player_location(playerid: str) -> str:
 def get_players_next_location(playerid: str) -> str:
     try:
         current_location = get_player_location(playerid)
-        current_index = game_map.index(current_location)
+        current_index = game_map_global.index(current_location)
         next_index = current_index + 1
-        next_icao = game_map[next_index]
+        next_icao = game_map_global[next_index]
         return next_icao
     except:
         print("Error getting player's next location.")
@@ -87,7 +113,7 @@ def get_random_weather_condition() -> tuple:
 def player_won(playerid: str) -> bool:
     #Checks if player won
     try:
-        if get_player_location(playerid) == game_map[len(game_map) - 1]:
+        if get_player_location(playerid) == game_map_global[len(game_map_global) - 1]:
             return True
         else:
             return False
