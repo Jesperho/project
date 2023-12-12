@@ -104,20 +104,25 @@ function removeAllPopups() {
 
 async function main() {
 
+  //getting values from form to init game
   let continent = document.getElementById("continent").value;
   let map_size = document.getElementById("size_map").value;
   let playersamount = document.getElementById("playernum").value;
 
+  //after init removing all popups
   removeAllPopups();
-  let airports = await getAirports(map_size, continent);
-  console.log(airports[0].icao);
 
+  //fetching suitable airports from api
+  let airports = await getAirports(map_size, continent);
+
+  //placing airports on the map
   airports.forEach(airport => {
       const { latitude, longitude, name } = airport;
       L.marker([latitude, longitude]).addTo(map).bindPopup(name);
   });
 
 
+  //creating players
   let players = [];
   for (let i = 1; i <= playersamount; i++) {
       let name = prompt(`Player ${i} name:`)
@@ -125,7 +130,10 @@ async function main() {
       let player = createPlayer(i, name, airports[0], 0);
       players.push(player);
   }
+
+  //placing players on the map
   placePlayersOnMap(map, players);
+  
 
 
 }

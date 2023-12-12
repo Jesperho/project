@@ -29,7 +29,7 @@ def get_large_airport_icao_by_continent(continent: str) -> str:
     if continent not in continents:
         raise Exception("Invalid continent provided")
     
-    sql = "SELECT ident FROM airport WHERE continent=%s AND type='large_airport' ORDER BY RAND() LIMIT 1"
+    sql = "SELECT ident FROM airport WHERE continent=%s AND type='large_airport' AND iso_country != 'RU' ORDER BY RAND() LIMIT 1"
     cursor = db.cursor()
     cursor.execute(sql, (continent, ))
     result = cursor.fetchone()
