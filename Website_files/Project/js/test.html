@@ -1,36 +1,204 @@
 <!DOCTYPE html>
 <html>
 <head>
- <title>Flight Game</title>
- <link rel="stylesheet" type="text/css" href="/css/game_menu.css" />
- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
- integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
- crossorigin="" />
+    <title>Flight Game</title>
+    <link rel="stylesheet" type="text/css" href="/css/game_menu.css" />
+    <script src="main.js" defer></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="" />
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
 
+        #gameMenu {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        }
+
+        #gameMenu button {
+            padding: 30px;
+            font-size: 25px;
+            border-radius: 5px;
+            background-color: #04AA6D; /* Green */
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+
+        #popup-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #popup-menu label {
+            font-size: 16px;
+        }
+
+        #popup-menu button {
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 5px;
+            background-color: #04AA6D; /* Green */
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #aboutPopup,
+        #tutorialPopup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            display: none;
+            width: 50%;
+            height: 50%;
+        }
+
+        #aboutPopup .close,
+        #tutorialPopup .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        #map {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+    </style>
 </head>
 <body>
- <div id="map"></div>
- <div id="gameMenu">
- <button onclick="showMenu('play')">Play</button>
- <button onclick="showTutorialPopup()">Tutorial</button>
- <button onclick="showAboutPopup()">About</button>
- </div>
- <div id="popup">
- <textarea id="textArea" placeholder="Type your text here..."></textarea>
- </div>
- <div id="aboutPopup">
- <span class="close" onclick="closeAboutPopup()">&times;</span>
- <p>Game is made by Jesper, Anatolii, Aleksandr, Phuc, German.</p>
- </div>
- <div id="tutorialPopup">
-    <span class="close" onclick="closeTutorialPopup()">&times;</span>
-    <p>Tutorial of the game...</p>
+    <div id="map"></div>
+    <div id="gameMenu">
+        <button onclick="showMenu('popup-menu')">Play</button>
+        <button onclick="showTutorialPopup()">Tutorial</button>
+        <button onclick="showAboutPopup()">About</button>
+    </div>
+    <div id="popup">
+        <div id="popup-menu">
+            <label for="continent">Select Continent:</label>
+            <select id="continent">
+                <option value="EU">Europe</option>
+                <option value="AS">Asia</option>
+                <option value="AF">Africa</option>
+                <option value="NA">North America</option>
+                </select>
+            <br>
+            
+            <label for="size_map">Map size:</label>
+            <select id="size_map">
+                <option value="7">Small</option>
+                <option value="14">Medium</option>
+                <option value="20">Big</option>
+                </select>
+            <br>
+            
+            <label for="playernum">Number of players:</label>
+            <input type="text" id="playernum" placeholder="Enter number of players">
+
+
+                <button onclick="main()">Continue</button>
+        </div>
+    </div>
+    <div id="aboutPopup">
+        <span class="close" onclick="closeAboutPopup()">&times;</span>
+        <p>Game is made by Jesper, Anatolii, Aleksandr, Phuc, German.</p>
+    </div>
+    <div id="tutorialPopup">
+        <span class="close" onclick="closeTutorialPopup()">&times;</span>
+        <p>Tutorial of the game...</p>
     </div>
 
- <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
- integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
- crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+        crossorigin=""></script>
+    <script>
+        // Initialize the leaflet map 
+        const map = L.map('map');
 
- <script src="game_menu.js"></script>
+        // Get the tile layer from OpenStreetMaps 
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            // Specify the maximum zoom of the map 
+            maxZoom: 19,
+            // Set the attribution for OpenStreetMaps 
+            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Set the view of the map 
+        // with the latitude, longitude and the zoom value 
+        map.setView([48.8584, 2.2945], 2);
+
+        function showMenu(menu) {
+            // Hide all menus
+            document.getElementById('popup-menu').style.display = 'none';
+            document.getElementById('tutorialPopup').style.display = 'none';
+            document.getElementById('aboutPopup').style.display = 'none';
+
+            // Show the selected menu
+            document.getElementById(menu).style.display = 'block';
+
+            // Show the popup screen
+            document.getElementById('popup').style.display = 'block';
+        }
+
+        function showAboutPopup() {
+            // Show the about popup screen
+            document.getElementById('aboutPopup').style.display = 'block';
+        }
+
+        function closeAboutPopup() {
+            // Hide the about popup screen
+            document.getElementById('aboutPopup').style.display = 'none';
+        }
+
+        function showTutorialPopup() {
+            // Show the about popup screen
+            document.getElementById('tutorialPopup').style.display = 'block';
+        }
+
+        function closeTutorialPopup() {
+            // Hide the about popup screen
+            document.getElementById('tutorialPopup').style.display = 'none';
+        }
+
+        function closePopup() {
+            // Hide the popup screen
+            document.getElementById('popup').style.display = 'none';
+        }
+    </script>
 </body>
 </html>

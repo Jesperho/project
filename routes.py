@@ -1,11 +1,12 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 import game
 
 app = Flask(__name__)
+CORS(app)
 
 
-
-#This endpoint is to be used to create players
+#This endpoint is useless
 @app.post("/players/<name>")
 def create_player(name: str):
     player_id = game.create_player(name)
@@ -15,7 +16,7 @@ def create_player(name: str):
     }
 
 
-#This endpoint is meant to be used every move to get players data
+#Useless
 @app.get("/players/<id>")
 def get_player(id):
     player = {
@@ -27,14 +28,14 @@ def get_player(id):
     }
     return player
 
-#Updating co2 budget, notice requiring PUT request to be sent
+#Useless
 @app.put("/players/<id>/<int:co2_to_add>")
 def add_to_co2_budget(id, co2_to_add: int):
     game.add_to_co2_budget(id, co2_to_add)
     return "OK"
 
 
-
+@app.get("/airports/<string:icao>")
 def get_airport(icao):
     #Arranging necessary airport info into json format
     coordinates_tuple = game.get_airport_coordinates(icao)
