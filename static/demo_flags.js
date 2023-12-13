@@ -6,8 +6,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 function get_airport(icao, latlng) {
-  const url = "/airports/"
-  const response = fetch(url + icao + "/coordinates", { method: "POST" })
+  const response = fetch("/airports/" + icao + "/iso", { method: "POST" })
     .then(response => response.json())
     .then(json => console.log(json))
 }

@@ -62,6 +62,11 @@ def get_airport(icao):
     return airport
 
 
+@app.get("/airports/<string:icao>/iso")
+def get_airport_iso(icao):
+    return game.get_airport_iso(icao)
+
+
 @app.get("/airports/<int:amount>/<string:continent>")
 def get_airports(amount, continent):
     # List that stores airports icaos which we need to store game map on the server
