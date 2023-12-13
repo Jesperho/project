@@ -11,6 +11,11 @@ def menu_page():
     return render_template("menu.html")
 
 
+@app.get("/demo_anim")
+def demo_anim_page():
+    return render_template("demo_anim.html")
+
+
 @app.get("/")
 def home_page():
     return render_template("home.html")

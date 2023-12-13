@@ -2,7 +2,12 @@
     received from html form on the website
 2. PLace the players' markers and airports' markers on the map which is zoomed in continent y.
 3. Program the game flow.
-    Each player rolls the dice. After dice is rolled, if player gets enough points to move-
-    he sees a confirm window of wether he wants the move to be made, also considering the weather random_weather_condition.
-    Program the graphics so that the plane somehow moves to the next marker. If time's on owr side we could do it prettier, if not - uglier.
+    Each player rolls the dice.
+
+    After dice is rolled, if player gets enough points to move
+    he sees a confirm window of wether he wants the move to be made,
+    also considering the weather random_weather_condition.
+    
+    Program the graphics so that the plane somehow moves to the next marker.
+    If time's on owr side we could do it prettier, if not - uglier.
     First one to arrive to last airport wins.
