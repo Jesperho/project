@@ -1,11 +1,8 @@
 'use strict';
 
-
 /**
  * Add custom icons to players and airports
  * Implement the remaining game flow
- * 
- * 
  */
 // global variables
 const continents = ["NA", "OC", "AF", "AN", "EU", "AS", "SA"];
@@ -68,7 +65,8 @@ function placePlayersOnMap(map, players) {
 
     const { latitude, longitude } = current_location;
 
-    L.marker([latitude, longitude]).addTo(map).bindPopup(`${name} - ${current_location.name}`);
+    L.marker([latitude, longitude],).addTo(map).bindPopup(`${name} - ${current_location.name}`);
+
   });
 }
 
@@ -119,6 +117,10 @@ async function main() {
   airports.forEach(airport => {
     const { latitude, longitude, name } = airport;
     L.marker([latitude, longitude]).addTo(map).bindPopup(name);
+
+    const icon = L.icon(iconUrl = "static/flags/{airport.iso}.png");
+    player.setIcon(icon);
+
   });
 
 
@@ -133,7 +135,5 @@ async function main() {
 
   //placing players on the map
   placePlayersOnMap(map, players);
-
-
 
 }
