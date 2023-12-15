@@ -6,9 +6,11 @@
   <link rel="stylesheet" type="text/css" href="static/css/game_menu.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <!-- <script src="https://unpkg.com/requirejs@2.3.6/bin/r.js"> </script> -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="static/js/main.js" defer></script>
+  <script>var exports = {};</script>
+  <script src="static/js/main.js"></script>
 </head>
 
 <body>
@@ -29,16 +31,16 @@
       </select>
       <br>
 
-      <label for="size_map">Map size:</label>
-      <select id="size_map">
+      <label for="map_size">Map size:</label>
+      <select id="map_size">
         <option value="7">Small</option>
         <option value="14">Medium</option>
         <option value="20">Big</option>
       </select>
       <br>
 
-      <label for="playernum">Number of players:</label>
-      <input type="text" id="playernum" placeholder="Enter number of players">
+      <label for="players_amount">Number of players:</label>
+      <input type="text" id="players_amount" placeholder="Enter number of players">
 
 
       <button onclick="main()">Continue</button>
