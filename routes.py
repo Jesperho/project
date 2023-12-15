@@ -56,6 +56,7 @@ def get_airport(icao):
         "icao": icao,
         "name": game.get_airport_name(icao),
         "country": game.get_airport_country_name(icao),
+        "iso": game.get_airport_iso(icao),
         "latitude": coordinates_tuple[0],
         "longitude": coordinates_tuple[1],
     }
