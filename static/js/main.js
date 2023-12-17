@@ -220,7 +220,7 @@ async function main() {
   zoom_to_game_field(map);
 
   players.forEach((p) => {
-    add_player_name_banner(p.name, p.current_location.name);
+    set_player_name_banner(p.name, p.current_location.name);
   });
 
 }

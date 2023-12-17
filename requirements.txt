@@ -3,3 +3,4 @@ Flask-Cors
 geopy
 mysql-connector-python
 Werkzeug
+python-dotenv

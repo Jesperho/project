@@ -1,16 +1,21 @@
 import random
 import sys
+import os
 
 import mysql.connector
 from geopy import distance
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Choose your own connection config
+# add your data to .env file
 db = mysql.connector.connect(
-    host="localhost",
+    host=os.environ.get("HOST"),
     port=3306,
-    database="flight_game",
-    user="user",
-    password="password",
+    database=os.environ.get("DB_NAME"),
+    user=os.environ.get("DB_USER"),
+    password=os.environ.get("DB_PASS"),
     autocommit=True,
 )
 
