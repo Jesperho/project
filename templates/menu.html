@@ -12,45 +12,71 @@
 </head>
 
 <body>
+  <!-- UI -->
   <div id="map"></div>
-  <div id="gameMenu">
-    <button onclick="showMenu('popup-menu')">Play</button>
-    <button onclick="showTutorialPopup()">Tutorial</button>
-    <button onclick="showAboutPopup()">About</button>
-  </div>
-  <div id="popup">
-    <div id="popup-menu">
-      <label for="continent">Select Continent:</label>
-      <select id="continent">
-        <option value="EU">Europe</option>
-        <option value="AS">Asia</option>
-        <option value="AF">Africa</option>
-        <option value="NA">North America</option>
-      </select>
-      <br>
 
-      <label for="map_size">Map size:</label>
-      <select id="map_size">
-        <option value="7">Small</option>
-        <option value="14">Medium</option>
-        <option value="20">Big</option>
-      </select>
-      <br>
-
-      <label for="players_amount">Number of players:</label>
-      <input type="text" id="players_amount" placeholder="Enter number of players">
-
-
-      <button onclick="main()">Continue</button>
+  <div id="map-game-ui-container">
+    <div id="game-ui">
+      <div id="player-ui" style="display: flex;">
+        <div id="dice-roll-container">
+          <button id="roll-dice-button">Roll Dice</button>
+          <div id="dice-result"> </div>
+        </div>
+        <div id="confirm-move-container" style="display: flex;">
+          Move ?
+          <button id="confirm-move-button">Confirm</button>
+          <button id="cancel-move-button">Cancel</button>
+        </div>
+      </div>
     </div>
+
+
+
+
   </div>
-  <div id="aboutPopup">
-    <span class="close" onclick="closeAboutPopup()">&times;</span>
-    <p>Game is made by Jesper, Anatolii, Aleksandr, Phuc, German.</p>
-  </div>
-  <div id="tutorialPopup">
-    <span class="close" onclick="closeTutorialPopup()">&times;</span>
-    <p>Tutorial of the game...</p>
+  <!-- MENU -->
+  <div id="game-menu-container">
+
+    <div id="gameMenu">
+      <button onclick="showMenu('popup-menu')">Play</button>
+      <button onclick="showTutorialPopup()">Tutorial</button>
+      <button onclick="showAboutPopup()">About</button>
+    </div>
+    <div id="popup">
+      <div id="popup-menu">
+        <label for="continent">Select Continent:</label>
+        <select id="continent">
+          <option value="EU">Europe</option>
+          <option value="AS">Asia</option>
+          <option value="AF">Africa</option>
+          <option value="NA">North America</option>
+        </select>
+        <br>
+
+        <label for="map_size">Map size:</label>
+        <select id="map_size">
+          <option value="7">Small</option>
+          <option value="14">Medium</option>
+          <option value="20">Big</option>
+        </select>
+        <br>
+
+        <label for="players_amount">Number of players:</label>
+        <input type="text" id="players_amount" placeholder="Enter number of players">
+
+
+        <button onclick="main()">Continue</button>
+      </div>
+    </div>
+    <div id="aboutPopup">
+      <span class="close" onclick="closeAboutPopup()">&times;</span>
+      <p>Game is made by Jesper, Anatolii, Aleksandr, Phuc, German.</p>
+    </div>
+    <div id="tutorialPopup">
+      <span class="close" onclick="closeTutorialPopup()">&times;</span>
+      <p>Tutorial of the game...</p>
+    </div>
+
   </div>
 
   <script src="static/js/main.js" defer></script>

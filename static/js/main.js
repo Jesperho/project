@@ -1,4 +1,57 @@
 'use strict';
+const $ = (id) => document.getElementById(id);
+
+var map = new L.map('map', { zoomControl: false, attributionControl: false });
+
+// Get the tile layer from OpenStreetMaps 
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  // Specify the maximum zoom of the map 
+  maxZoom: 19,
+  // Set the attribution for OpenStreetMaps 
+  attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+// Set the view of the map 
+// with the latitude, longitude and the zoom value 
+map.setView([48.8584, 2.2945], 2);
+
+function showMenu(menu) {
+  // Hide all menus
+  document.getElementById('popup-menu').style.display = 'none';
+  document.getElementById('tutorialPopup').style.display = 'none';
+  document.getElementById('aboutPopup').style.display = 'none';
+
+  // Show the selected menu
+  document.getElementById(menu).style.display = 'block';
+
+  // Show the popup screen
+  document.getElementById('popup').style.display = 'block';
+}
+
+function showAboutPopup() {
+  // Show the about popup screen
+  document.getElementById('aboutPopup').style.display = 'block';
+}
+
+function closeAboutPopup() {
+  // Hide the about popup screen
+  document.getElementById('aboutPopup').style.display = 'none';
+}
+
+function showTutorialPopup() {
+  // Show the about popup screen
+  document.getElementById('tutorialPopup').style.display = 'block';
+}
+
+function closeTutorialPopup() {
+  // Hide the about popup screen
+  document.getElementById('tutorialPopup').style.display = 'none';
+}
+
+function closePopup() {
+  // Hide the popup screen
+  document.getElementById('popup').style.display = 'none';
+}
 
 
 /**
@@ -8,7 +61,7 @@
  * 
  */
 // global variables
-const continents = ["NA", "OC", "AF", "AN", "EU", "AS", "SA"];
+var continents = ["NA", "OC", "AF", "AN", "EU", "AS", "SA"];
 
 // icons
 
@@ -62,12 +115,10 @@ function createPlayer(id, name, currentLocationAirport, co2Budget) {
   };
 }
 
-function placePlayersOnMap(map, players) {
+function place_players_on_map(map, players) {
   players.forEach(player => {
     const { current_location, name } = player;
-
     const { latitude, longitude } = current_location;
-
     L.marker([latitude, longitude]).addTo(map).bindPopup(`${name} - ${current_location.name}`);
   });
 }
@@ -100,14 +151,48 @@ function removeAllPopups() {
   if (gameMenu) {
     gameMenu.parentNode.removeChild(gameMenu);
   }
+
+  $("game-menu-container").remove();
 }
 
-async function main() {
 
+function draw_game_path_polyline(map, airports) {
+  let latLongs = [];
+  airports.forEach((a) => {
+    const { latitude, longitude } = a;
+    latLongs.push({ lat: latitude, lng: longitude });
+  })
+  var game_path_polyline = new L.Polyline(latLongs, { dashArray: '5 10', dashOffset: 10, color: 'red', weight: 3 })
+  map.addLayer(game_path_polyline);
+}
+function zoom_to_game_field(map) {
+  let markers = [];
+  map.eachLayer(function (layer) {
+    if (layer instanceof L.Marker) { markers.push(layer); }
+  });
+  let bounds = L.latLngBounds(markers.map(marker => marker.getLatLng()));
+  map.fitBounds(bounds, { padding: [20, 20] });
+}
+
+function move_player(p) {
+
+}
+
+function calculate_fuel() { }
+
+function is_goal_reached() { return false }
+
+async function main() {
   //getting values from form to init game
   let continent = document.getElementById("continent").value;
-  let map_size = document.getElementById("size_map").value;
-  let playersamount = document.getElementById("playernum").value;
+  let map_size = document.getElementById("map_size").value;
+  let players_amount = document.getElementById("players_amount").value;
+
+  $("game-ui").style["display"] = "block";
+  $("map").style["display"] = "flex";
+  $("map").style["position"] = "absolute";
+  $("map-game-ui-container").appendChild($("map"))
+  // $("map-game-ui-container").appendChild($("game-ui"))
 
   //after init removing all popups
   removeAllPopups();
@@ -117,22 +202,27 @@ async function main() {
 
   //placing airports on the map
   airports.forEach(airport => {
-    const { latitude, longitude, name } = airport;
-    L.marker([latitude, longitude]).addTo(map).bindPopup(name);
+    const { latitude, longitude, name, iso } = airport;
+    const airport_icon = L.icon({ iconUrl: `static/flags/${iso}.png`, iconSize: [30, 20] });
+    L.marker([latitude, longitude], { icon: airport_icon }).addTo(map).bindPopup(name);
   });
 
 
   //creating players
   let players = [];
-  for (let i = 1; i <= playersamount; i++) {
+  for (let i = 1; i <= players_amount; i++) {
     let name = prompt(`Player ${i} name:`)
 
     let player = createPlayer(i, name, airports[0], 0);
     players.push(player);
   }
 
-  //placing players on the map
-  placePlayersOnMap(map, players);
+  place_players_on_map(map, players);
+  draw_game_path_polyline(map, airports);
+  zoom_to_game_field(map);
+
+
+  players.forEach((p) => move_player(p))
 
 
 
