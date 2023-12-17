@@ -17,21 +17,25 @@
 
   <div id="map-game-ui-container">
     <div id="game-ui">
-      <div id="player-ui" style="display: flex;">
+      <div id="player-ui">
+
         <div id="dice-roll-container">
-          <button id="roll-dice-button">Roll Dice</button>
+          <button id="roll-dice-button" onclick="roll_dice()">Roll Dice</button>
           <div id="dice-result"> </div>
         </div>
-        <div id="confirm-move-container" style="display: flex;">
-          Move ?
-          <button id="confirm-move-button">Confirm</button>
-          <button id="cancel-move-button">Cancel</button>
+
+        <!-- <div id="confirm-move-container"> -->
+        <!-- <button id="confirm-move-button" onclick="confirm_move()">Confirm</button> -->
+        <!-- <button id="cancel-move-button" onclick="cancel_move()">Cancel</button> -->
+        <!-- </div> -->
+
+        <div id="player-info">
+          <div id="player-info-name"> </div>
+          <div id="player-info-location"> </div>
         </div>
+
       </div>
     </div>
-
-
-
 
   </div>
   <!-- MENU -->
@@ -61,8 +65,8 @@
         </select>
         <br>
 
-        <label for="players_amount">Number of players:</label>
-        <input type="text" id="players_amount" placeholder="Enter number of players">
+        <!-- <label for="players_amount">Number of players:</label> -->
+        <!-- <input type="text" id="players_amount" placeholder="Enter number of players"> -->
 
 
         <button onclick="main()">Continue</button>

@@ -53,14 +53,6 @@ function closePopup() {
   document.getElementById('popup').style.display = 'none';
 }
 
-
-/**
- * Add custom icons to players and airports
- * Implement the remaining game flow
- * 
- * 
- */
-// global variables
 var continents = ["NA", "OC", "AF", "AN", "EU", "AS", "SA"];
 
 // icons
@@ -105,7 +97,6 @@ async function getAirports(amount, continent) {
 // function to set up game
 // this is the main function that creates the game and calls the other functions
 
-
 function createPlayer(id, name, currentLocationAirport, co2Budget) {
   return {
     id: id,
@@ -123,38 +114,20 @@ function place_players_on_map(map, players) {
   });
 }
 
-
 function removeAllPopups() {
-  // Check if the popup-menu is open
-  const popupMenu = document.getElementById("popup");
-  if (popupMenu) {
-    // Remove the popup-menu
-    popupMenu.parentNode.removeChild(popupMenu);
-  }
+  const popupMenu = $("popup");
+  if (popupMenu) popupMenu.remove();
 
-  // Check if the aboutPopup is open
-  const aboutPopup = document.getElementById("aboutPopup");
-  if (aboutPopup) {
-    // Remove the aboutPopup
-    aboutPopup.parentNode.removeChild(aboutPopup);
-  }
+  const aboutPopup = $("aboutPopup");
+  if (aboutPopup) aboutPopup.remove();
 
-  // Check if the tutorialPopup is open
-  const tutorialPopup = document.getElementById("tutorialPopup");
-  if (tutorialPopup) {
-    // Remove the tutorialPopup
-    tutorialPopup.parentNode.removeChild(tutorialPopup);
-  }
-
-  // Remove the gameMenu
-  const gameMenu = document.getElementById("gameMenu");
-  if (gameMenu) {
-    gameMenu.parentNode.removeChild(gameMenu);
-  }
+  const tutorialPopup = $("tutorialPopup");
+  if (tutorialPopup) tutorialPopup.remove();
+  const gameMenu = $("gameMenu");
+  if (gameMenu) gameMenu.remove();
 
   $("game-menu-container").remove();
 }
-
 
 function draw_game_path_polyline(map, airports) {
   let latLongs = [];
@@ -164,7 +137,12 @@ function draw_game_path_polyline(map, airports) {
   })
   var game_path_polyline = new L.Polyline(latLongs, { dashArray: '5 10', dashOffset: 10, color: 'red', weight: 3 })
   map.addLayer(game_path_polyline);
+
+  const goal = airports.at(-1);
+  const goal_ll = L.latLng(goal.latitude, goal.longitude);
+  L.circleMarker(goal_ll, { radius: 20 }).addTo(map);
 }
+
 function zoom_to_game_field(map) {
   let markers = [];
   map.eachLayer(function (layer) {
@@ -174,19 +152,39 @@ function zoom_to_game_field(map) {
   map.fitBounds(bounds, { padding: [20, 20] });
 }
 
-function move_player(p) {
+function move_player() {
 
+}
+
+function roll_dice() {
+  const roll = 1 + Math.floor(Math.random() * 6);
+  $("dice-result").textContent = "Dice rolled: " + roll;
+  info_popup("Rolled: " + roll);
+  return roll;
 }
 
 function calculate_fuel() { }
 
 function is_goal_reached() { return false }
 
+function info_popup(text) {
+  const popup = document.createElement('div');
+  popup.id = "info-popup";
+  popup.innerHTML = `<p>${text}</p>
+  <button id="close-info-popup">Close</button>`
+}
+
+function set_player_name_banner(player_name, location) {
+  $("player-info-name").innerHTML = "Player: " + player_name
+  $("player-info-location").innerHTML = "Location: " + location;
+}
+
 async function main() {
   //getting values from form to init game
   let continent = document.getElementById("continent").value;
   let map_size = document.getElementById("map_size").value;
-  let players_amount = document.getElementById("players_amount").value;
+  // let players_amount = document.getElementById("players_amount").value;
+  let players_amount = 1;
 
   $("game-ui").style["display"] = "block";
   $("map").style["display"] = "flex";
@@ -207,7 +205,6 @@ async function main() {
     L.marker([latitude, longitude], { icon: airport_icon }).addTo(map).bindPopup(name);
   });
 
-
   //creating players
   let players = [];
   for (let i = 1; i <= players_amount; i++) {
@@ -216,14 +213,14 @@ async function main() {
     let player = createPlayer(i, name, airports[0], 0);
     players.push(player);
   }
-
   place_players_on_map(map, players);
+
   draw_game_path_polyline(map, airports);
+
   zoom_to_game_field(map);
 
-
-  players.forEach((p) => move_player(p))
-
-
+  players.forEach((p) => {
+    add_player_name_banner(p.name, p.current_location.name);
+  });
 
 }

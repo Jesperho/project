@@ -8,7 +8,6 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
-  background-color: #f0f0f0;
 }
 
 #gameMenu {
@@ -109,16 +108,65 @@ button:hover {
 
 button {
   padding: 10px 30px;
-  font-size: 25px;
+  font-size: 16px;
   border-radius: 5px;
   background-color: #80a5ea; /* Light blue */
   color: white;
   border: none;
   cursor: pointer;
+  width: 100%;
 }
 
 #map-game-ui-container {
   display: flex;
   width: 100%;
   justify-content: space-between;
+}
+
+#player-name {
+  border-radius: 5px;
+  display: flex;
+  flex-flow: column;
+  font-size: 16px;
+  background-color: #80a5ea;
+  color: white;
+  padding: 10px 30px;
+}
+
+#dice-result {
+  padding: 10px 30px;
+  border-radius: 5px;
+  display: flex;
+  flex-flow: column;
+  font-size: 16px;
+  background-color: #80a5ea;
+  color: white;
+}
+
+#info-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ccc;
+  z-index: 100;
+}
+
+#info-popup h1 {
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+#info-popup p {
+  margin: 0;
+  text-align: center;
+}
+
+#close-info-popup {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
 }
